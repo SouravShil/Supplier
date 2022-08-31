@@ -18,11 +18,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<SPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+builder.Services.AddDbContext<SPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("con1")));
 builder.Services.AddDbContext<SPContext>(options => options.UseInMemoryDatabase("Test_Database"));
 builder.Services.AddScoped<IServices, Services>();
 builder.Logging.AddLog4Net();
-//builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
