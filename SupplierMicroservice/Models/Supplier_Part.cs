@@ -10,7 +10,7 @@ namespace SupplierMicroservice.Models
         [Required,MaxLength(20, ErrorMessage = "Part Name cannot be longer than 10 characters.")]
         public string PName { get; set; }
         [Required]
-        [Range(0,10), DefaultValue(0)]
+        [Range(0,1000), DefaultValue(0)]
         public int PQuantity { get; set; }
         [Required]
         public DateTime PDate { get; set; }

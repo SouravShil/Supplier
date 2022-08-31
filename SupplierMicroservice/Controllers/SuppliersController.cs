@@ -12,53 +12,56 @@ namespace SupplierMicroservice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class SuppliersController : ControllerBase
     {
         private readonly IServices _services;
-        private readonly IConfiguration _config;
-        public SuppliersController(IServices services, IConfiguration config) 
+        private readonly log4net.ILog _log4net;
+        public SuppliersController(IServices services) 
         { 
             _services = services;
-            _config = config;
+            _log4net = log4net.LogManager.GetLogger(typeof(SuppliersController));
         }
         
         [HttpGet, Route("/getSupplierOfPart")]
-        public IActionResult GetSupplierOfPart(string id)
+        public IActionResult GetSupplierOfPart(string name)
         {
-            var supplier=_services.SupplierOfPart(id);
-            if(supplier == null)
-                return NotFound();
-            else
-            return Ok(supplier);
+            _log4net.Info(" Http GET request " + nameof(SuppliersController));
+            var supplier = _services.SupplierOfPart(name);
+            if (supplier.Count()==0 ||supplier==null)
+                return NotFound("Supplier Not Found");
+             else
+                return Ok(supplier);
         }
         [Route("/addSupplier")]
         [HttpPost]
         public IActionResult Post(SupplierPart supplierPart)
         {
+            _log4net.Info(" Http POST request For Add Supplier " + nameof(SuppliersController));
             bool res = _services.AddSupplier(supplierPart);
-            if(res)
-               return Ok();
-            return Conflict();
-
-        }
+                if (res)
+                    return Ok("Supplier Added Successfully");
+                return Conflict("Already Supplier ID Present");
+         }
         //[Route("/editSupplier")]
         [HttpPost, Route("/editSupplier")]
-        public IActionResult EditSupplier([FromBody] SupplierPart supplierPart)
+        public IActionResult EditSupplier([FromBody] Supplier supplier)
         {
-            bool res = _services.EditSupplier(supplierPart);
+            _log4net.Info(" Http POST request For Edit Supplier " + nameof(SuppliersController));
+            bool res = _services.EditSupplier(supplier);
             if (res)
-                return Ok();
-            return BadRequest();
-        }
+                return Ok("Supplier Details Edited Successfully");
+            return NotFound("Supplier Not Found");
+         }
         [HttpPost, Route("/updateFeedback")]
         public IActionResult UpdateFeedback(int feedback, [FromBody] string sid)
         {
-            bool res= _services.UpdateFeedback(feedback, sid);
-            if(res)
-               return Ok();
-            return BadRequest();
-        }
+            _log4net.Info(" Http POST request For Update Feedback " + nameof(SuppliersController));
+            bool res = _services.UpdateFeedback(feedback, sid);
+            if (res)
+                 return Ok("Feedback Updated Succesfully");
+             return NotFound("Supplier Not Found");
+         }
         
     }
 }

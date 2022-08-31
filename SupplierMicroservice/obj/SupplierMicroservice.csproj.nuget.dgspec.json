@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj": {}
+    "D:\\Final RFQ\\SupplierMicroservice_WithoutUnitTesting\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj": {}
   },
   "projects": {
-    "D:\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj": {
+    "D:\\Final RFQ\\SupplierMicroservice_WithoutUnitTesting\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj",
+        "projectUniqueName": "D:\\Final RFQ\\SupplierMicroservice_WithoutUnitTesting\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj",
         "projectName": "SupplierMicroservice",
-        "projectPath": "D:\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj",
+        "projectPath": "D:\\Final RFQ\\SupplierMicroservice_WithoutUnitTesting\\SupplierMicroservice\\SupplierMicroservice\\SupplierMicroservice.csproj",
         "packagesPath": "C:\\Users\\Sourav Shil\\.nuget\\packages\\",
-        "outputPath": "D:\\SupplierMicroservice\\SupplierMicroservice\\obj\\",
+        "outputPath": "D:\\Final RFQ\\SupplierMicroservice_WithoutUnitTesting\\SupplierMicroservice\\SupplierMicroservice\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Sourav Shil\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[6.0.8, )"
             },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[6.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.8, )"
@@ -58,13 +62,13 @@
               "target": "Package",
               "version": "[6.0.8, )"
             },
+            "Microsoft.Extensions.Logging.Log4Net.AspNetCore": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.14.0, )"
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[6.0.8, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

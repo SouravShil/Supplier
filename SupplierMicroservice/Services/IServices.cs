@@ -3,9 +3,10 @@ namespace SupplierMicroservice.Services
 {
     public interface IServices
     {
-        IList<Supplier>? SupplierOfPart(string PartId);
+        IEnumerable<Supplier>? SupplierOfPart(string Pname);
         bool AddSupplier(SupplierPart supplierPart);
-        bool EditSupplier(SupplierPart supplierPart);
+        bool EditSupplier(Supplier supplier);
         bool UpdateFeedback(int feedback, string sid);
+        bool ValidateSupplierDetails(Supplier supplier);
     }
 }
