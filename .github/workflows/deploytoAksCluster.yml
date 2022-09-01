@@ -1,0 +1,51 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: rfqcontainer.azurecr.io
+        username: ${{ secrets.acr_rfqcontainer_username }}
+        password: ${{ secrets.acr_rfqcontainer_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/SupplierMicroservice" -f  "SupplierMicroservice/Dockerfile" -t rfqcontainer.azurecr.io/supplieraks:${{ github.sha }} --label dockerfile-path=SupplierMicroservice/Dockerfile
+        docker push rfqcontainer.azurecr.io/supplieraks:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_supplieraks_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep supplieraksae53 | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace supplieraksae53`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: supplieraksae53
+        container-registry-url: rfqcontainer.azurecr.io
+        container-registry-username: ${{ secrets.acr_rfqcontainer_username }}
+        container-registry-password: ${{ secrets.acr_rfqcontainer_password }}
+        secret-name: supplieraksdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: supplieraksae53
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+          manifests/ingress.yml
+        images: |
+          rfqcontainer.azurecr.io/supplieraks:${{ github.sha }}
+        imagepullsecrets: |
+          supplieraksdockerauth
