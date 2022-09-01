@@ -12,7 +12,7 @@ using SupplierMicroservice.Models;
 namespace SupplierMicroservice.Migrations
 {
     [DbContext(typeof(SPContext))]
-    [Migration("20220831112403_init")]
+    [Migration("20220901023138_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

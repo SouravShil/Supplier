@@ -15,10 +15,12 @@ namespace SupplierMicroservice.Models
                 .HasKey(k => new { k.SID, k.PID });
             modelBuilder.Entity<SupplierPart>()
                 .HasOne(t => t.Supplier)
-                .WithMany(t => t.PartsLink);
+                .WithMany(t => t.PartsLink)
+                .HasForeignKey(p => p.SID);
             modelBuilder.Entity<SupplierPart>()
                 .HasOne(t => t.Supplier_Part)
-                .WithMany(t => t.SuppliersLink);
+                .WithMany(t => t.SuppliersLink)
+                .HasForeignKey(p => p.PID);
         }
     }
     
