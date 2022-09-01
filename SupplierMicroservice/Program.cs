@@ -19,9 +19,9 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SPContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("con1")));
-builder.Services.AddDbContext<SPContext>(options => options.UseInMemoryDatabase("Test_Database"));
+//builder.Services.AddDbContext<SPContext>(options => options.UseInMemoryDatabase("Test_Database"));
 builder.Services.AddScoped<IServices, Services>();
-builder.Logging.AddLog4Net();
+//builder.Logging.AddLog4Net();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(

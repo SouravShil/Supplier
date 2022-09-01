@@ -8,59 +8,66 @@ namespace SupplierMicroservice.Services
     public class Services : IServices
     {
         private readonly SPContext _context;
-        private readonly log4net.ILog _log4net;
+       // private readonly log4net.ILog _log4net;
         public Services(SPContext context) 
         { 
             _context = context;
-            _log4net = log4net.LogManager.GetLogger(typeof(Services));
+           /// _log4net = log4net.LogManager.GetLogger(typeof(Services));
         }
 
-        public bool AddSupplier(SupplierPart supplierPart)
+        public int AddSupplier(SupplierPart supplierPart)
         {
-            _log4net.Info(" Add Aupplier Method in " + nameof(Services));
+            //_log4net.Info(" Add Aupplier Method in " + nameof(Services));
             try
             {
                 Supplier? supplier = _context.Suppliers.Find(supplierPart.SID);
-                if (supplier != null) return false;
+                if (supplier != null) return 0;
                 if (ValidateSupplierDetails(supplierPart.Supplier))
                 {
                     
                     Supplier_Part? part = _context.Parts.Where(p => p.PID == supplierPart.PID).FirstOrDefault();
                     if (part == null)
                     {
-                        Supplier supplier1 = supplierPart.Supplier;
-                        Supplier_Part part1 = supplierPart.Supplier_Part;
-                        supplier1.PartsLink = new Collection<SupplierPart>
-                {
-                new SupplierPart(){
-                    Supplier=supplier1,
-                    Supplier_Part = part1
-                    }
-                 };
-                        _context.Suppliers.Add(supplier1);
+                        //        Supplier supplier1 = supplierPart.Supplier;
+                        //        Supplier_Part part1 = supplierPart.Supplier_Part;
+                        //        supplier1.PartsLink = new Collection<SupplierPart>
+                        //{
+                        //new SupplierPart(){
+                        //    Supplier=supplier1,
+                        //    Supplier_Part = part1
+                        //    }
+                        // };
+                        //_context.Suppliers.Add(supplier1);
+                        _context.Suppliers.Add(supplierPart.Supplier);
+                        _context.Parts.Add(supplierPart.Supplier_Part);
+                        SupplierPart sp=new SupplierPart() { SID=supplierPart.SID,PID=supplierPart.PID};
+                        _context.SupplierParts.Add(sp);
                         _context.SaveChanges();
                     }
                     if (part != null)
                     {
-                        Supplier supplier1 = supplierPart.Supplier;
-                        part.SuppliersLink = new Collection<SupplierPart>()
-                                             {new SupplierPart{ Supplier = supplier1, Supplier_Part = part } };
+                        //Supplier supplier1 = supplierPart.Supplier;
+                        //part.SuppliersLink = new Collection<SupplierPart>()
+                        //                     {new SupplierPart{ Supplier = supplier1, Supplier_Part = part } };
+                        _context.Suppliers.Add(supplierPart.Supplier);
+                        SupplierPart sp = new SupplierPart() { SID = supplierPart.SID, PID = supplierPart.PID };
+                        _context.SupplierParts.Add(sp);
                         _context.SaveChanges();        
                     }
-                    return true;
+                    return 1;
                 }
-                else return false;
+                else return 0;
             }
             catch (Exception ex)
             {
-                _log4net.Error(" Exception Here "+ ex.Message + " in " + nameof(Services));
-                return false;
+                //_log4net.Error(" Exception Here "+ ex.Message + " in " + nameof(Services));
+                return 2;
             }
         }
 
         public bool EditSupplier(Supplier supplier)
         {
-            _log4net.Info(" Edit Supplier Method in " + nameof(Services));
+           // _log4net.Info(" Edit Supplier Method in " + nameof(Services));
             try
             {
                 var supplier1 = _context.Suppliers.Find(supplier.SID);
@@ -78,7 +85,7 @@ namespace SupplierMicroservice.Services
             }
             catch (Exception ex)
             {
-                _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
+              //  _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
                 return false;
             }
         }
@@ -86,7 +93,7 @@ namespace SupplierMicroservice.Services
 
         public IEnumerable<Supplier>? SupplierOfPart(string Pname)
         {
-            _log4net.Info(" Supplier Of Part Method in " + nameof(Services));
+           // _log4net.Info(" Supplier Of Part Method in " + nameof(Services));
             IList<Supplier>? supplier = new List<Supplier>();
             try
             {
@@ -109,14 +116,14 @@ namespace SupplierMicroservice.Services
             }
             catch (Exception ex)
             {
-                _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
+              //  _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
                 return supplier;
             }
         }
 
         public bool UpdateFeedback(int feedback, string sid)
         {
-            _log4net.Info(" Update Feedback Method in " + nameof(Services));
+           // _log4net.Info(" Update Feedback Method in " + nameof(Services));
             try
             {
                 Supplier? supplier = _context.Suppliers.Where(x => x.SID == sid).Single();
@@ -127,14 +134,14 @@ namespace SupplierMicroservice.Services
             }
             catch (Exception ex)
             {
-                _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
+               // _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
                 return false;
             }
         }
 
         public bool ValidateSupplierDetails(Supplier supplier)
         {
-            _log4net.Info(" Supplier Details Validation method in " + nameof(Services));
+            //_log4net.Info(" Supplier Details Validation method in " + nameof(Services));
             try
             {
                 Regex emailPattern = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
@@ -148,7 +155,7 @@ namespace SupplierMicroservice.Services
             }
             catch (Exception ex)
             {
-                _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
+               // _log4net.Error(" Exception Here " + ex.Message + " in " + nameof(Services));
                 return false;
             }
         }
