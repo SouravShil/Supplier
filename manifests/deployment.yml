@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "supplieraks-a22c"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "supplieraks-a22c"
+  template:
+    metadata:
+      labels:
+        app: "supplieraks-a22c"
+    spec:
+      containers:
+        - name: "supplieraks-a22c"
+          image: "rfqcontainer.azurecr.io/supplieraks"
+          ports:
+          - containerPort: 80
