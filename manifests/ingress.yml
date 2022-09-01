@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: "supplieraks-a22c"
+    labels:
+        app: "supplieraks-a22c"
+    annotations:
+        kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+    rules:
+        - host: supplieraksae53-supplieraks-a22c.70d7c074dcdb473f8179.eastus.aksapp.io
+          http:
+            paths:
+            - path: /
+              backend:
+                serviceName: "supplieraks-a22c"
+                servicePort: 80
